@@ -1,0 +1,22 @@
+{
+  "name": "instagram_clone_nodejs",
+  "version": "1.0.0",
+  "description": "Instagram Clone Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ezekielriva/instagram_clone_nodejs.git"
+  },
+  "author": "ezekielriva",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ezekielriva/instagram_clone_nodejs/issues"
+  },
+  "homepage": "https://github.com/ezekielriva/instagram_clone_nodejs#readme",
+  "dependencies": {
+    "typescript": "^5.4.5"
+  }
+}
