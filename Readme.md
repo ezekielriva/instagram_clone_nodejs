@@ -28,3 +28,9 @@ The goal of this project is to create an Node.js application from scratch that r
 [ ] User can send messages to other users
 
 [ ] User can create a story for followers
+
+## Development
+
+# Init Local Server
+1. Init docker compose watch server using `docker compose watch local`
+2. Init ts compiler watcher using `docker compose exec dev npm run start:dev`

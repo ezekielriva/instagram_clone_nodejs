@@ -1,4 +1,12 @@
 services:
-  web:
+  dev:
+    image: instagram_clone_nodejs-dev:latest
     build: .
-    
+    ports:
+      - "3000:3000"
+    command: [ "npm", "run", "start:local" ]
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /www
