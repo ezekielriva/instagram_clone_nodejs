@@ -3,6 +3,7 @@ import UserUseCase from "./use_cases/user_use_case";
 import User from "./entities/user";
 import PostUseCase from "./use_cases/post_use_case";
 import Post from "./entities/post";
+import NullUser from "./entities/null_user";
 
 const app : Application = express();
 
@@ -26,6 +27,14 @@ app.post("/users", (req: Request, res: Response) : void => {
         username: user.username,
         email: user.email
     });
+});
+
+app.get("/users/:userId/posts", (req: Request, res: Response): void => {
+    var useCase : PostUseCase = new PostUseCase();
+    var user : NullUser = new NullUser();
+    var posts : Post[] = useCase.ListPostsByUser(user);
+
+    res.send({ posts: posts })
 });
 
 app.post("/posts", (req: Request, res: Response) : void => {
