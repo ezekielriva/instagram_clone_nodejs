@@ -4,6 +4,7 @@ import User from "./entities/user";
 import PostUseCase from "./use_cases/post_use_case";
 import Post from "./entities/post";
 import NullUser from "./entities/null_user";
+import FollowerUseCase from "./use_cases/follower_use_case";
 
 const app : Application = express();
 
@@ -35,6 +36,16 @@ app.get("/users/:userId/posts", (req: Request, res: Response): void => {
     var posts : Post[] = useCase.ListPostsByUser(user);
 
     res.send({ posts: posts })
+});
+
+app.post("/users/:userId/follow", (req: Request, res: Response): void => {
+    var user : User = new User("name", "mail", "pass", "username");
+    var currentUser : User = new User("name", "mail", "pass", "username");
+    var useCase : FollowerUseCase = new FollowerUseCase(user);
+    var result : boolean = useCase.FollowUser(currentUser);
+    var status : number = (result)? 200 : 401
+
+    res.status(status).send({});
 });
 
 app.post("/posts", (req: Request, res: Response) : void => {
