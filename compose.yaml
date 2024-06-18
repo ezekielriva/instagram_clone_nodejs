@@ -2,9 +2,11 @@ services:
   dev:
     image: instagram_clone_nodejs-dev:latest
     build: .
+    volumes:
+      - ./node_modules:/www/node_modules
     ports:
       - "3000:3000"
-    command: [ "npm", "run", "start:local" ]
+    command: "npm run start:dev"
     develop:
       watch:
         - action: sync

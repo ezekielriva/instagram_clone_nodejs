@@ -32,5 +32,6 @@ The goal of this project is to create an Node.js application from scratch that r
 ## Development
 
 # Init Local Server
-1. Init docker compose watch server using `docker compose watch local`
-2. Init ts compiler watcher using `docker compose exec dev npm run start:dev`
+1. Init docker compose watch server using `docker compose watch dev`
+2. Install npm packages in the mounted volume `docker compose exec dev npm install`
+3. Init ts compiler watcher using `docker compose exec dev npm run start:dev`
