@@ -1,12 +1,12 @@
 import express, { Application, Request, Response } from "express";
-import bodyParser from "body-parser";
 import UserUseCase from "./use_cases/user_use_case";
 import User from "./entities/user";
-import { userInfo } from "os";
+import PostUseCase from "./use_cases/post_use_case";
+import Post from "./entities/post";
 
 const app : Application = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.get("/", (req: Request, res: Response) : void => {
     res.send({ hello: "world" });
@@ -25,6 +25,25 @@ app.post("/users", (req: Request, res: Response) : void => {
         name: user.name,  
         username: user.username,
         email: user.email
+    });
+});
+
+app.post("/posts", (req: Request, res: Response) : void => {
+    var useCase : PostUseCase = new PostUseCase();
+    var user : User = new User(
+        req.body.user.name,
+        req.body.user.email,
+        req.body.user.password,
+        req.body.user.username
+    );
+    var post : Post = useCase.CreatePost(
+        user,
+        req.body.image
+    );
+
+    res.send({
+        user: post.user,
+        image: post.image
     });
 });
 
