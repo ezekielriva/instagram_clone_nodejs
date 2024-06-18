@@ -50,14 +50,9 @@ app.post("/users/:userId/follow", (req: Request, res: Response): void => {
 
 app.post("/posts", (req: Request, res: Response) : void => {
     var useCase : PostUseCase = new PostUseCase();
-    var user : User = new User(
-        req.body.user.name,
-        req.body.user.email,
-        req.body.user.password,
-        req.body.user.username
-    );
+    var currentUser : User = new User("name", "mail", "pass", "username");
     var post : Post = useCase.CreatePost(
-        user,
+        currentUser,
         req.body.image
     );
 

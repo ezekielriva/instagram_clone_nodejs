@@ -6,19 +6,11 @@ test("Create Post Use Case", () => {
         .post("/posts")
         .set('Content-Type', 'application/json')
         .set('Accept', 'application/json')
-        .send({ 
-            user: {
-                name: "John", 
-                username: "foobar", 
-                email: "foo@bar.com", 
-                password: "1234" 
-            },
-            image: "12345" 
-        })
+        .send({ image: "12345" })
         .expect('Content-Type', /json/)
         .expect(200)
         .then((response) => {
-            expect(response.body.user.username).toBe("foobar");
+            expect(response.body.user.username).toBe("username");
             expect(response.body.image).toBe("12345");
         });
 });
