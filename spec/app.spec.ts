@@ -1,8 +1,8 @@
 import request from "supertest";
 import app from "../app";
 
-test("test root page", () => {
+test("Home", () => {
     return request(app)
         .get("/")
-        .expect(200)
+        .expect(200);
 });
