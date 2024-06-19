@@ -1,3 +1,5 @@
+import EncryptDectyptPassword from "../services/encrypt_decrypt_password";
+
 export default class User {
     id: number | null;
     name: string;
@@ -11,7 +13,7 @@ export default class User {
         this.id = null;
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.password = EncryptDectyptPassword.encrypt(password);
         this.username = username;
         
         this.followers = [];
