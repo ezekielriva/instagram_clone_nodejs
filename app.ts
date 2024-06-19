@@ -5,20 +5,24 @@ import PostUseCase from "./use_cases/post_use_case";
 import Post from "./entities/post";
 import NullUser from "./entities/null_user";
 import FollowerUseCase from "./use_cases/follower_use_case";
-import UserRepositoryMemory from "./adapters/memory/user_repository";
 import CreateUserUseCase from "./use_cases/create_user_use_case";
+
+import { UserRepository } from "./adapters/memory"
+import AuthenticationUseCase from "./use_cases/authentication_use_case";
+import LoggerMiddleware from "./middlewares/logger_middleware";
 
 const app : Application = express();
 
 app.use(express.json());
+app.use(LoggerMiddleware);
 
 app.get("/", (req: Request, res: Response) : void => {
     res.send({ hello: "world" });
 });
 
 app.post("/users", (req: Request, res: Response) : void => {
-    var memoryDB: UserRepositoryMemory = new UserRepositoryMemory();
-    var useCase : CreateUserUseCase = new CreateUserUseCase(memoryDB);
+    var repository: UserRepository = UserRepository.getInstance();
+    var useCase : CreateUserUseCase = new CreateUserUseCase(repository);
     var user : User = useCase.execute(
         req.body.name,
         req.body.email,
@@ -49,6 +53,19 @@ app.post("/users/:userId/follow", (req: Request, res: Response): void => {
     var status : number = (result)? 200 : 401
 
     res.status(status).send({});
+});
+
+app.post("/authenticate", (req:Request, res:Response):void => {
+    const repository:UserRepository = UserRepository.getInstance();
+    const useCase:AuthenticationUseCase = new AuthenticationUseCase(repository);
+
+    var user:User | undefined = useCase.execute(req.body.username, req.body.password);
+
+    if (user) {
+        res.status(200).send(user);
+    } else {
+        res.status(401).send({});
+    }
 });
 
 app.post("/posts", (req: Request, res: Response) : void => {
