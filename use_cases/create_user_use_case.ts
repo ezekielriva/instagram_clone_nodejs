@@ -1,15 +1,15 @@
 import User from "../entities/user";
 import UserRepository from "./repositories/user_repository";
 
-export default class UserUseCase {
+export default class CreateUserUseCase {
     userRepository:UserRepository;
 
     constructor(userRepository: UserRepository) {
         this.userRepository = userRepository;
     }
 
-    CreateUser(name:string, email:string, password:string, username: string) {
-        var user:User = new User(name, email, password, username);
+    execute(name:string, email:string, password:string, username: string) {
+        var user = new User(name, email, password, username);
         return this.userRepository.Create(user);
     }
 }

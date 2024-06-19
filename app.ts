@@ -1,11 +1,12 @@
 import express, { Application, Request, Response } from "express";
-import UserUseCase from "./use_cases/user_use_case";
+import UserUseCase from "./use_cases/create_user_use_case";
 import User from "./entities/user";
 import PostUseCase from "./use_cases/post_use_case";
 import Post from "./entities/post";
 import NullUser from "./entities/null_user";
 import FollowerUseCase from "./use_cases/follower_use_case";
 import UserRepositoryMemory from "./adapters/memory/user_repository";
+import CreateUserUseCase from "./use_cases/create_user_use_case";
 
 const app : Application = express();
 
@@ -17,8 +18,8 @@ app.get("/", (req: Request, res: Response) : void => {
 
 app.post("/users", (req: Request, res: Response) : void => {
     var memoryDB: UserRepositoryMemory = new UserRepositoryMemory();
-    var useCase : UserUseCase = new UserUseCase(memoryDB);
-    var user : User = useCase.CreateUser(
+    var useCase : CreateUserUseCase = new CreateUserUseCase(memoryDB);
+    var user : User = useCase.execute(
         req.body.name,
         req.body.email,
         req.body.password,
