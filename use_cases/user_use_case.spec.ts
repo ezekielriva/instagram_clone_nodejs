@@ -1,3 +1,4 @@
+import UserRepositoryMemory from "../adapters/memory/user_repository";
 import User from "../entities/user";
 import UserUseCase from "./user_use_case";
 
@@ -8,7 +9,8 @@ describe("Create a user", () => {
         const password = "123456";
         const username = "foobar";
         
-        var useCase : UserUseCase = new UserUseCase();
+        var memoryDB : UserRepositoryMemory = new UserRepositoryMemory();
+        var useCase : UserUseCase = new UserUseCase(memoryDB);
         var user : User = useCase.CreateUser(name, email, password, username);
 
         expect(user.name).toBe(name);

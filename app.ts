@@ -5,6 +5,7 @@ import PostUseCase from "./use_cases/post_use_case";
 import Post from "./entities/post";
 import NullUser from "./entities/null_user";
 import FollowerUseCase from "./use_cases/follower_use_case";
+import UserRepositoryMemory from "./adapters/memory/user_repository";
 
 const app : Application = express();
 
@@ -15,7 +16,8 @@ app.get("/", (req: Request, res: Response) : void => {
 });
 
 app.post("/users", (req: Request, res: Response) : void => {
-    var useCase : UserUseCase = new UserUseCase();
+    var memoryDB: UserRepositoryMemory = new UserRepositoryMemory();
+    var useCase : UserUseCase = new UserUseCase(memoryDB);
     var user : User = useCase.CreateUser(
         req.body.name,
         req.body.email,
