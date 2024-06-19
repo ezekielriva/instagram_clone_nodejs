@@ -1,6 +1,6 @@
-import NullUser from "../../entities/null_user";
-import User from "../../entities/user";
-import FollowerUseCase from "../../use_cases/follower_use_case";
+import NullUser from "../entities/null_user";
+import User from "../entities/user";
+import FollowerUseCase from "./follower_use_case";
 
 describe("Follower Use Cases", () : void => {
     describe("when it is not following", () : void => {

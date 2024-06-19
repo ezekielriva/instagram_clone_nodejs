@@ -1,6 +1,6 @@
-import NullUser from "../../entities/null_user";
-import Post from "../../entities/post";
-import PostUseCase from "../../use_cases/post_use_case";
+import NullUser from "../entities/null_user";
+import Post from "../entities/post";
+import PostUseCase from "./post_use_case";
 
 describe("Create a Post", () => {
     test("it creates a post", () : void => {

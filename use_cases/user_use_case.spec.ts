@@ -1,5 +1,5 @@
-import User from "../../entities/user";
-import UserUseCase from "../../use_cases/user_use_case";
+import User from "../entities/user";
+import UserUseCase from "./user_use_case";
 
 describe("Create a user", () => {
     test("it creates an user", () : void => {
