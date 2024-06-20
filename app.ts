@@ -1,5 +1,8 @@
 import express, { Application, Request, Response } from "express";
-import UserUseCase from "./use_cases/create_user_use_case";
+import session from "express-session";
+import dotenv from "dotenv";
+import crypto from "crypto";
+
 import User from "./entities/user";
 import PostUseCase from "./use_cases/post_use_case";
 import Post from "./entities/post";
@@ -8,13 +11,30 @@ import FollowerUseCase from "./use_cases/follower_use_case";
 import CreateUserUseCase from "./use_cases/create_user_use_case";
 
 import { UserRepository } from "./adapters/memory"
-import AuthenticationUseCase from "./use_cases/authentication_use_case";
+
 import LoggerMiddleware from "./middlewares/logger_middleware";
+
+import AuthenticationController from "./controllers/authentication_controller";
 
 const app : Application = express();
 
+dotenv.config();
+
+declare module "express-session" {
+    interface SessionData {
+        auth_token?:string
+    }
+}
+
 app.use(express.json());
 app.use(LoggerMiddleware);
+app.use(session({
+    secret: crypto
+        .createHmac("sha256", process.env.SESSION_SECRET || "default")
+        .digest("hex"),
+    resave: false,
+    saveUninitialized: true,
+}));
 
 app.get("/", (req: Request, res: Response) : void => {
     res.send({ hello: "world" });
@@ -55,17 +75,8 @@ app.post("/users/:userId/follow", (req: Request, res: Response): void => {
     res.status(status).send({});
 });
 
-app.post("/authenticate", (req:Request, res:Response):void => {
-    const repository:UserRepository = UserRepository.getInstance();
-    const useCase:AuthenticationUseCase = new AuthenticationUseCase(repository);
-
-    var user:User | undefined = useCase.execute(req.body.username, req.body.password);
-
-    if (user) {
-        res.status(200).send(user);
-    } else {
-        res.status(401).send({});
-    }
+app.post("/auth/sign_in", (req:Request, res:Response):void => {
+    new AuthenticationController().sign_in(req,res);
 });
 
 app.post("/posts", (req: Request, res: Response) : void => {

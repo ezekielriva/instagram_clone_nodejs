@@ -1,4 +1,4 @@
-import request from "supertest";
+import request, { Response } from "supertest";
 import app from "../../app";
 
 describe("AuthenticateUseCase", ():void => {
@@ -10,9 +10,12 @@ describe("AuthenticateUseCase", ():void => {
             .send({ name: "name", email: "mail", password: "pass", username: "username" });
 
         await agent
-            .post("/authenticate")
+            .post("/auth/sign_in")
             .send({ username: "username", password: "pass" })
-            .expect(200);
+            .expect(200)
+            .then((response:Response) => {
+                console.log(response.request.cookies);
+            })
     });
 
     test("when user exists.when send wrong credentials.it returns 401", async() => {
@@ -23,7 +26,7 @@ describe("AuthenticateUseCase", ():void => {
             .send({ name: "name", email: "mail", password: "pass", username: "username" });
 
         await agent
-            .post("/authenticate")
+            .post("/auth/sign_in")
             .send({ username: "username", password: "no-pass" })
             .expect(401);
     });

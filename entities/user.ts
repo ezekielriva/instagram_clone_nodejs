@@ -1,4 +1,4 @@
-import EncryptDectyptPassword from "../services/encrypt_decrypt_password";
+import EncryptDectyptPassword from "../services/crypto/encrypt_decrypt_password";
 
 export default class User {
     id: number | null;
@@ -6,6 +6,11 @@ export default class User {
     email: string;
     password: string;
     username: string;
+
+    auth_token?:string;
+    auth_token_exp?:number;
+
+
     followers: User[];
 
 

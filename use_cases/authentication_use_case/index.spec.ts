@@ -1,7 +1,8 @@
-import UserRepositoryMemory from "../adapters/memory/user_repository";
-import User from "../entities/user";
-import AuthenticationUseCase from "./authentication_use_case";
-import UserRepository from "./repositories/user_repository";
+import UserRepositoryMemory from "../../adapters/memory/user_repository";
+import User from "../../entities/user";
+import AuthenticationUseCase from ".";
+import UserRepository from "../repositories/user_repository";
+import { UnauthorizedError } from "./errors";
 
 describe("AuthenticationUseCase", ():void => {
     describe("when user exist", ():void => {
@@ -13,9 +14,11 @@ describe("AuthenticationUseCase", ():void => {
                 new User("name","mail","password","username")
             );
 
-            expect(
-                useCase.execute("username", "password")
-            ).toBeInstanceOf(User);
+            var user:User = useCase.execute("username", "password");
+
+            expect(user).toBeInstanceOf(User);
+            expect(user.auth_token).toBeDefined();
+            expect(user.auth_token_exp).toBeDefined();
         });
 
         test("when username and password don't match", ():void => {
@@ -26,9 +29,9 @@ describe("AuthenticationUseCase", ():void => {
                 new User("name","mail","no-pass","username")
             );
 
-            expect(
+            expect(() => {
                 useCase.execute("username", "password")
-            ).toBe(undefined);
+            }).toThrow(UnauthorizedError);
         });
     });
 
@@ -40,8 +43,8 @@ describe("AuthenticationUseCase", ():void => {
             new User("name","mail","no-pass","no-name")
         );
 
-        expect(
+        expect(()=>{
             useCase.execute("username", "password")
-        ).toBe(undefined);
+        }).toThrow(UnauthorizedError);
     });
 });

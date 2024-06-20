@@ -1,5 +1,5 @@
 import User from "../../entities/user";
-import EncryptDectyptPassword from "../../services/encrypt_decrypt_password";
+import EncryptDectyptPassword from "../../services/crypto/encrypt_decrypt_password";
 import IUserRepository from "../../use_cases/repositories/user_repository";
 
 export default class UserRepository implements IUserRepository {
@@ -37,6 +37,25 @@ export default class UserRepository implements IUserRepository {
         return this.users.find((user) => {
             return user.username == username && EncryptDectyptPassword.compare(password, user.password);
         });
+    }
+
+    Patch(user:User):User {
+        var index:number|undefined;
+        
+        this.users.find((storedUser, i) => {
+            if (storedUser.id == user.id) {
+                index = i;
+                return true;
+            } else {
+                return false;
+            }
+        })
+
+        if(index) {
+            this.users[index] = user;
+        }
+
+        return user;
     }
 
     private incrementIndex() {
