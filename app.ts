@@ -77,9 +77,9 @@ app.post("/users/:userId/follow", (req: Request, res: Response): void => {
     res.status(status).send({});
 });
 
-app.post("/auth/sign_in", (req:Request, res:Response):void => {
-    new AuthenticationController().SignIn(req,res);
-});
+app.post("/auth/sign_in", 
+    AuthenticationController.SignIn
+);
 
 app.post("/posts", 
     AuthenticationController.isAuthenticated, 

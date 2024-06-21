@@ -6,7 +6,7 @@ import RetrieveCurrentUserUseCase from "../use_cases/retrieve_current_user_use_c
 
 export default class AuthenticationController {
 
-    public SignIn(req:Request, res:Response):void {
+    public static SignIn(req:Request, res:Response) {
         const repository:UserRepository = UserRepository.getInstance();
         const useCase:AuthenticationUseCase = new AuthenticationUseCase(repository);
     
