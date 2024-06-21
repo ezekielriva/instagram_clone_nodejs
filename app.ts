@@ -16,6 +16,7 @@ import LoggerMiddleware from "./middlewares/logger_middleware";
 
 import AuthenticationController from "./controllers/authentication_controller";
 import PostController from "./controllers/post_controller";
+import UserController from "./controllers/user_controller";
 
 const app : Application = express();
 
@@ -42,22 +43,7 @@ app.get("/", (req: Request, res: Response) : void => {
     res.send({ hello: "world" });
 });
 
-app.post("/users", (req: Request, res: Response) : void => {
-    var repository: UserRepository = UserRepository.getInstance();
-    var useCase : CreateUserUseCase = new CreateUserUseCase(repository);
-    var user : User = useCase.execute(
-        req.body.name,
-        req.body.email,
-        req.body.password,
-        req.body.username
-    );
-
-    res.send({ 
-        name: user.name,  
-        username: user.username,
-        email: user.email
-    });
-});
+app.post("/users", UserController.Post);
 
 app.get("/users/:userId/posts", (req: Request, res: Response): void => {
     var useCase : PostUseCase = new PostUseCase();

@@ -11,7 +11,7 @@ The goal of this project is to create an Node.js application from scratch that r
 
 ## User Stories
 
-[ ] User can register for an account storing their name, email/username and password then login to the app using their credentials
+[x] User can register for an account storing their name, email/username and password then login to the app using their credentials
 
 [ ] User can create a post and store images to the server (Preferably in a database)
 
