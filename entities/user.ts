@@ -24,3 +24,9 @@ export default class User {
         this.followers = [];
     }
 }
+
+export class NullUser extends User {
+    constructor() {
+        super("","","","");
+    }
+}

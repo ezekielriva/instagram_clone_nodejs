@@ -1,5 +1,4 @@
-import NullUser from "../entities/null_user";
-import User from "../entities/user";
+import User, { NullUser } from "../entities/user";
 import FollowerUseCase from "./follower_use_case";
 
 describe("Follower Use Cases", () : void => {

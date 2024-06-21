@@ -1,5 +1,4 @@
-import NullPost from "../entities/null_post";
-import Post from "../entities/post";
+import Post, { NullPost } from "../entities/post";
 import User from "../entities/user";
 
 export default class PostUseCase {

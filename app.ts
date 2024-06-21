@@ -2,15 +2,14 @@ import express, { Application, Request, Response } from "express";
 import session from "express-session";
 import dotenv from "dotenv";
 import crypto from "crypto";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 
-import User from "./entities/user";
+import User, { NullUser } from "./entities/user";
 import PostUseCase from "./use_cases/post_use_case";
 import Post from "./entities/post";
-import NullUser from "./entities/null_user";
 import FollowerUseCase from "./use_cases/follower_use_case";
-import CreateUserUseCase from "./use_cases/create_user_use_case";
-
-import { UserRepository } from "./adapters/memory"
 
 import LoggerMiddleware from "./middlewares/logger_middleware";
 
@@ -39,11 +38,21 @@ app.use(session({
     saveUninitialized: true,
 }));
 
+const upload = multer({ 
+    storage: multer.memoryStorage()
+});
+const uploadFolder = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadFolder)){
+    fs.mkdirSync(uploadFolder);
+}
+
 app.get("/", (req: Request, res: Response) : void => {
     res.send({ hello: "world" });
 });
 
-app.post("/users", UserController.Post);
+app.post("/users", 
+    UserController.Post
+);
 
 app.get("/users/:userId/posts", (req: Request, res: Response): void => {
     var useCase : PostUseCase = new PostUseCase();
@@ -69,6 +78,7 @@ app.post("/auth/sign_in",
 
 app.post("/posts", 
     AuthenticationController.isAuthenticated, 
+    upload.single("image"),
     PostController.Post
 );
 

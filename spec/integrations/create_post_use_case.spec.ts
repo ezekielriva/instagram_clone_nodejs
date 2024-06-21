@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../../app";
-import { Cookie } from "express-session";
+import path from "path";
 
 describe("CreatePost UseCase", () => {
     describe("when auth user", () => {
@@ -22,17 +22,18 @@ describe("CreatePost UseCase", () => {
         })
 
         test("it creates a post", () => {
+            var image = path.join(__dirname, "..", "mocks", "1x1.png");
             return request(app)
                 .post("/posts")
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
                 .set("Cookie", cookies)
-                .send({ image: "12345" })
+                .attach("image", image)
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .then((response) => {
                     expect(response.body.user.username).toBe("username");
-                    expect(response.body.image).toBe("12345");
+                    expect(response.body.image.originalname).toBe("1x1.png");
                 });
         });
     });
