@@ -13,9 +13,6 @@ describe("AuthenticateUseCase", ():void => {
             .post("/auth/sign_in")
             .send({ username: "username", password: "pass" })
             .expect(200)
-            .then((response:Response) => {
-                console.log(response.request.cookies);
-            })
     });
 
     test("when user exists.when send wrong credentials.it returns 401", async() => {

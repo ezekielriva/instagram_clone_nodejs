@@ -15,6 +15,7 @@ import { UserRepository } from "./adapters/memory"
 import LoggerMiddleware from "./middlewares/logger_middleware";
 
 import AuthenticationController from "./controllers/authentication_controller";
+import PostController from "./controllers/post_controller";
 
 const app : Application = express();
 
@@ -23,6 +24,7 @@ dotenv.config();
 declare module "express-session" {
     interface SessionData {
         auth_token?:string
+        currentUser?:User
     }
 }
 
@@ -76,21 +78,12 @@ app.post("/users/:userId/follow", (req: Request, res: Response): void => {
 });
 
 app.post("/auth/sign_in", (req:Request, res:Response):void => {
-    new AuthenticationController().sign_in(req,res);
+    new AuthenticationController().SignIn(req,res);
 });
 
-app.post("/posts", (req: Request, res: Response) : void => {
-    var useCase : PostUseCase = new PostUseCase();
-    var currentUser : User = new User("name", "mail", "pass", "username");
-    var post : Post = useCase.CreatePost(
-        currentUser,
-        req.body.image
-    );
-
-    res.send({
-        user: post.user,
-        image: post.image
-    });
-});
+app.post("/posts", 
+    AuthenticationController.isAuthenticated, 
+    PostController.Post
+);
 
 export default app;

@@ -1,5 +1,6 @@
 import User from "../../entities/user";
 import EncryptDectyptPassword from "../../services/crypto/encrypt_decrypt_password";
+import { NotFoundError } from "../../use_cases/repositories/errors";
 import IUserRepository from "../../use_cases/repositories/user_repository";
 
 export default class UserRepository implements IUserRepository {
@@ -37,6 +38,16 @@ export default class UserRepository implements IUserRepository {
         return this.users.find((user) => {
             return user.username == username && EncryptDectyptPassword.compare(password, user.password);
         });
+    }
+
+    FindUserByAuthToken(token: string): User {
+        var user:User | undefined = this.users.find((user) => {
+            return user.auth_token == token;
+        });
+
+        if (user) return user;
+
+        throw new NotFoundError();
     }
 
     Patch(user:User):User {
