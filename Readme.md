@@ -19,7 +19,7 @@ The goal of this project is to create an Node.js application from scratch that r
 
 [ ] User can follow other users
 
-[ ] User can see other users posts (people who the user follows)
+[x] User can see other users posts (people who the user follows)
 
 ## Bonus features
 
