@@ -17,6 +17,7 @@ import PostController from "./controllers/post_controller";
 import UserController from "./controllers/user_controller";
 import ListPostsUseCase from "./use_cases/list_posts_use_case";
 import PostRepository from "./adapters/memory/post_repository";
+import ProfileController from "./controllers/profile_controller";
 
 const app : Application = express();
 
@@ -69,6 +70,11 @@ app.post("/users/:userId/follow", (req: Request, res: Response): void => {
 
     res.status(status).send({});
 });
+
+app.get("/profile", 
+    AuthenticationController.isAuthenticated,
+    ProfileController.Get
+);
 
 app.post("/auth/sign_in", 
     AuthenticationController.SignIn

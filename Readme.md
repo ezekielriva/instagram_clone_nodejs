@@ -15,7 +15,7 @@ The goal of this project is to create an Node.js application from scratch that r
 
 [~] User can create a post and store images to the server (Preferably in a database)
 
-[ ] User has a profile that displays all the images they have uploaded
+[x] User has a profile that displays all the images they have uploaded
 
 [ ] User can follow other users
 

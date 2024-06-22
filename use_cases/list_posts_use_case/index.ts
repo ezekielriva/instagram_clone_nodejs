@@ -2,7 +2,7 @@ import Post from "../../entities/post";
 import PostRepository, { TListParams } from "../repositories/post_repository";
 
 export default class ListPostsUseCase {
-    private postRepository:PostRepository;
+    protected postRepository:PostRepository;
 
     constructor(postRepository:PostRepository) {
         this.postRepository = postRepository;

@@ -10,3 +10,9 @@ export function BuildPost():Post {
     
     return new Post(user, image);
 }
+
+export function BuildPostWithUser(user:User):Post {
+    var image:Image = BuildImage();
+    
+    return new Post(user, image)
+}
