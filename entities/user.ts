@@ -1,7 +1,9 @@
 import EncryptDectyptPassword from "../services/crypto/encrypt_decrypt_password";
 
+export type TUserID = string | number | null;
+
 export default class User {
-    id: number | null;
+    id: TUserID;
     name: string;
     email: string;
     password: string;

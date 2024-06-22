@@ -7,7 +7,6 @@ import path from "path";
 import fs from "fs";
 
 import User, { NullUser } from "./entities/user";
-import PostUseCase from "./use_cases/post_use_case";
 import Post from "./entities/post";
 import FollowerUseCase from "./use_cases/follower_use_case";
 
@@ -16,6 +15,8 @@ import LoggerMiddleware from "./middlewares/logger_middleware";
 import AuthenticationController from "./controllers/authentication_controller";
 import PostController from "./controllers/post_controller";
 import UserController from "./controllers/user_controller";
+import ListPostsUseCase from "./use_cases/list_posts_use_case";
+import PostRepository from "./adapters/memory/post_repository";
 
 const app : Application = express();
 
@@ -54,13 +55,10 @@ app.post("/users",
     UserController.Post
 );
 
-app.get("/users/:userId/posts", (req: Request, res: Response): void => {
-    var useCase : PostUseCase = new PostUseCase();
-    var user : NullUser = new NullUser();
-    var posts : Post[] = useCase.ListPostsByUser(user);
-
-    res.send({ posts: posts })
-});
+app.get("/users/:userId/posts", 
+    AuthenticationController.isAuthenticated,
+    PostController.Index
+);
 
 app.post("/users/:userId/follow", (req: Request, res: Response): void => {
     var user : User = new User("name", "mail", "pass", "username");

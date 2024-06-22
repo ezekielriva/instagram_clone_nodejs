@@ -1,4 +1,3 @@
-import { response } from "express";
 import UserRepositoryMemory from "../adapters/memory/user_repository";
 import User from "../entities/user";
 import CreateUserUseCase from "./create_user_use_case";
@@ -19,7 +18,7 @@ describe("CreateUserUseCase", () : void => {
         expect(user.email).toBe(email);
         expect(user.username).toBe(username);
 
-        expect(user.id).toBe(0);
+        expect(user.id).toBeDefined();
         expect(repository.List().length).toBe(1);
     })
 });

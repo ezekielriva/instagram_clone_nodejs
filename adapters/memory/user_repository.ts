@@ -7,11 +7,9 @@ export default class UserRepository implements IUserRepository {
     private static instance: UserRepository;
 
     private users: User[];
-    private index: number;
 
     constructor() {
         this.users = [];
-        this.index = 0;
     }
 
     public static getInstance():UserRepository {
@@ -23,9 +21,8 @@ export default class UserRepository implements IUserRepository {
     }
 
     Create(user: User): User {
-        user.id = this.index;
+        user.id = crypto.randomUUID();
         this.users.push(user);
-        this.incrementIndex();
         
         return user;
     }
@@ -67,9 +64,5 @@ export default class UserRepository implements IUserRepository {
         }
 
         return user;
-    }
-
-    private incrementIndex() {
-        this.index++;
     }
 }

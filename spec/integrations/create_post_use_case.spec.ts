@@ -32,8 +32,8 @@ describe("CreatePost UseCase", () => {
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .then((response) => {
-                    expect(response.body.user.username).toBe("username");
-                    expect(response.body.image.originalname).toBe("1x1.png");
+                    expect(response.body.post.user.username).toBe("username");
+                    expect(response.body.post.image.originalname).toBe("1x1.png");
                 });
         });
     });

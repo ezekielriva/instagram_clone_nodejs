@@ -1,7 +1,10 @@
 import Image, { NullImage } from "./image";
 import User, { NullUser } from "./user";
 
+export type TPostId = string | number | null | undefined;
+
 export default class Post {
+    id: TPostId;
     user: User;
     image: Image;
 
