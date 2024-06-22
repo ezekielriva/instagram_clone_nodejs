@@ -6,18 +6,14 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-import User, { NullUser } from "./entities/user";
-import Post from "./entities/post";
-import FollowerUseCase from "./use_cases/follower_use_case";
-
+import User from "./entities/user";
 import LoggerMiddleware from "./middlewares/logger_middleware";
 
 import AuthenticationController from "./controllers/authentication_controller";
 import PostController from "./controllers/post_controller";
 import UserController from "./controllers/user_controller";
-import ListPostsUseCase from "./use_cases/list_posts_use_case";
-import PostRepository from "./adapters/memory/post_repository";
 import ProfileController from "./controllers/profile_controller";
+import FollowerController from "./controllers/follower_controller";
 
 const app : Application = express();
 
@@ -61,15 +57,10 @@ app.get("/users/:userId/posts",
     PostController.Index
 );
 
-app.post("/users/:userId/follow", (req: Request, res: Response): void => {
-    var user : User = new User("name", "mail", "pass", "username");
-    var currentUser : User = new User("name", "mail", "pass", "username");
-    var useCase : FollowerUseCase = new FollowerUseCase(user);
-    var result : boolean = useCase.FollowUser(currentUser);
-    var status : number = (result)? 200 : 401
-
-    res.status(status).send({});
-});
+app.post("/users/:userId/follow",
+    AuthenticationController.isAuthenticated,
+    FollowerController.Create
+);
 
 app.get("/profile", 
     AuthenticationController.isAuthenticated,
