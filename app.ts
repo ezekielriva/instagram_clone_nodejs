@@ -6,8 +6,9 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-import User from "./entities/user";
 import LoggerMiddleware from "./middlewares/logger_middleware";
+
+import User from "./entities/user";
 
 import AuthenticationController from "./controllers/authentication_controller";
 import PostController from "./controllers/post_controller";
@@ -26,23 +27,27 @@ declare module "express-session" {
     }
 }
 
+const upload = multer({ 
+    storage: multer.memoryStorage()
+});
+
+const uploadFolder = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadFolder)){
+    fs.mkdirSync(uploadFolder);
+}
+
+
 app.use(express.json());
 app.use(LoggerMiddleware);
 app.use(session({
     secret: crypto
-        .createHmac("sha256", process.env.SESSION_SECRET || "default")
+        .createHmac("sha256", process.env.SESSION_SECRET!)
         .digest("hex"),
     resave: false,
     saveUninitialized: true,
 }));
 
-const upload = multer({ 
-    storage: multer.memoryStorage()
-});
-const uploadFolder = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadFolder)){
-    fs.mkdirSync(uploadFolder);
-}
+
 
 app.get("/", (req: Request, res: Response) : void => {
     res.send({ hello: "world" });
