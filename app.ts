@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, Request, RequestHandler, Response } from "express";
 import session from "express-session";
 import dotenv from "dotenv";
 import crypto from "crypto";
@@ -48,8 +48,8 @@ app.get("/", (req: Request, res: Response) : void => {
     res.send({ hello: "world" });
 });
 
-app.post("/users", 
-    UserController.Post
+app.post("/users",
+    UserController.Create
 );
 
 app.get("/users/:userId/posts", 
@@ -64,7 +64,7 @@ app.post("/users/:userId/follow",
 
 app.get("/profile", 
     AuthenticationController.isAuthenticated,
-    ProfileController.Get
+    ProfileController.Show
 );
 
 app.post("/auth/sign_in", 
@@ -74,7 +74,7 @@ app.post("/auth/sign_in",
 app.post("/posts", 
     AuthenticationController.isAuthenticated, 
     upload.single("image"),
-    PostController.Post
+    PostController.Create
 );
 
 export default app;
